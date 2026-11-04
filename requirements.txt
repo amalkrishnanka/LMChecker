@@ -1,0 +1,11 @@
+Django>=5.1,<6.2
+Pillow>=10.1
+numpy>=1.26
+opencv-python-headless>=4.9
+reportlab>=4.0
+
+# OCR back-ends: install at least one (see README).
+# EasyOCR pulls in PyTorch (large download, no system install needed).
+easyocr>=1.7
+# Tesseract needs the Tesseract binary installed on the OS as well.
+pytesseract>=0.3.10

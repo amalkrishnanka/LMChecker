@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load ui %}
+{% block shell %}
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <a class="brand" href="{% url 'scanner:dashboard' %}"><span class="brand-mark"><i class="bi bi-upc-scan"></i></span>{{ SITE_NAME }}</a>
+    <a class="btn btn-grad w-100" href="{% url 'scanner:new' %}"><i class="bi bi-plus-lg me-1"></i> New scan</a>
+    <nav class="nav-side">
+      <span class="nav-label">Workspace</span>
+      <a href="{% url 'scanner:dashboard' %}" class="{% if nav == 'dashboard' %}active{% endif %}"><i class="bi bi-speedometer2"></i>Dashboard</a>
+      <a href="{% url 'scanner:new' %}" class="{% if nav == 'scan' %}active{% endif %}"><i class="bi bi-camera"></i>Product scanner</a>
+      <a href="{% url 'scanner:history' %}" class="{% if nav == 'history' %}active{% endif %}"><i class="bi bi-clock-history"></i>Scan history</a>
+      <span class="nav-label">Account</span>
+      <a href="{% url 'accounts:profile' %}" class="{% if nav == 'profile' %}active{% endif %}"><i class="bi bi-person-gear"></i>Profile &amp; settings</a>
+      <a href="{% url 'core:landing' %}"><i class="bi bi-house"></i>Home page</a>
+      {% if user.is_staff %}<a href="{% url 'admin:index' %}"><i class="bi bi-sliders"></i>Admin &amp; rule settings</a>{% endif %}
+    </nav>
+    <div class="side-user">
+      <span class="avatar">{{ user|initials }}</span>
+      <div class="min-w-0 flex-grow-1" style="min-width:0">
+        <div class="fw-semibold text-truncate">{{ user.get_full_name|default:user.username }}</div>
+        <div class="small text-muted text-truncate">{{ user.email|default:user.username }}</div>
+      </div>
+      <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}
+        <button class="btn btn-sm btn-soft" title="Sign out" aria-label="Sign out"><i class="bi bi-box-arrow-right"></i></button>
+      </form>
+    </div>
+  </aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="main-col">
+    <header class="topbar-mobile">
+      <button class="btn btn-soft" id="sidebarToggle" aria-label="Open menu"><i class="bi bi-list fs-5"></i></button>
+      <a class="brand" href="{% url 'scanner:dashboard' %}"><span class="brand-mark"><i class="bi bi-upc-scan"></i></span>{{ SITE_NAME }}</a>
+      <a class="btn btn-grad" href="{% url 'scanner:new' %}" aria-label="New scan"><i class="bi bi-plus-lg"></i></a>
+    </header>
+    <main class="page">
+      {% include "partials/_messages.html" %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+{% endblock %}
